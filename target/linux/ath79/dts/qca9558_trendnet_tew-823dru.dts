@@ -4,21 +4,17 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 
-#include "qca9557.dtsi"
+#include "qca955x.dtsi"
 
 / {
 	compatible = "trendnet,tew-823dru", "qca,qca9558";
 	model = "TRENDNET TEW-823DRU";
 
-	chosen {
-		bootargs = "console=ttyS0,115200n8";
-	};
-
 	aliases {
-		led-boot = &system;
-		led-failsafe = &system;
-		led-running = &system;
-		led-upgrade = &system;
+		led-boot = &led_power_green;
+		led-failsafe = &led_power_green;
+		led-running = &led_power_green;
+		led-upgrade = &led_power_green;
 	};
 
 	leds {
@@ -29,7 +25,7 @@
 			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
 		};
 
-		system: power_green {
+		led_power_green: power_green {
 			label = "trendnet:green:power";
 			gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
 		};
@@ -76,10 +72,6 @@
 	status = "okay";
 };
 
-&gpio {
-	status = "okay";
-};
-
 &usb_phy0 {
 	status = "okay";
 };
@@ -112,6 +104,7 @@
 
 &spi {
 	status = "okay";
+
 	num-cs = <1>;
 
 	flash@0 {
@@ -124,7 +117,7 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 
-			uboot:	partition@0 {
+			partition@0 {
 				label = "u-boot";
 				reg = <0x000000 0x030000>;
 				read-only;
@@ -154,7 +147,7 @@
 				read-only;
 			};
 
-			mac: partition@fe0000 {
+			partition@fe0000 {
 				label = "mac";
 				reg = <0xfe0000 0x010000>;
 				read-only;
@@ -177,7 +170,7 @@
 		qca,ar8327-initvals = <
 			0x04 0x00080080 /* PORT0 PAD MODE CTRL */
 			0x0c 0x07600000 /* PORT6 PAD MODE CTRL */
-			0x10 0x81000080 /* POWER_ON_STRIP */
+			0x10 0x81000080 /* POWER_ON_STRAP */
 			0x7c 0x0000007e /* PORT0_STATUS */
 			0x94 0x0000007e /* PORT6 STATUS */
 		>;
@@ -209,5 +202,6 @@
 
 &wmac {
 	status = "okay";
+
 	mtd-cal-data = <&art 0x1000>;
 };

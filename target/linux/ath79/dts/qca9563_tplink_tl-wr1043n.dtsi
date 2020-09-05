@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-/dts-v1/;
 
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
@@ -7,22 +6,18 @@
 #include "qca956x.dtsi"
 
 / {
-	chosen {
-		bootargs = "console=ttyS0,115200n8";
-	};
-
 	aliases {
-		led-boot = &system;
-		led-failsafe = &system;
-		led-running = &system;
-		led-upgrade = &system;
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-running = &led_system;
+		led-upgrade = &led_system;
 		label-mac-device = &wmac;
 	};
 
-	gpio_leds: leds {
+	leds: leds {
 		compatible = "gpio-leds";
 
-		system: system {
+		led_system: system {
 			label = "tp-link:green:system";
 			gpios = <&gpio 6 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "heartbeat";
@@ -93,10 +88,6 @@
 	status = "okay";
 };
 
-&gpio {
-	status = "okay";
-};
-
 &mdio0 {
 	status = "okay";
 
@@ -123,6 +114,7 @@
 
 &wmac {
 	status = "okay";
+
 	mtd-cal-data = <&art 0x1000>;
 	mtd-mac-address = <&info 0x8>;
 };

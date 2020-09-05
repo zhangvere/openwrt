@@ -4,27 +4,23 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 
-#include "qca9557.dtsi"
+#include "qca955x.dtsi"
 
 / {
 	compatible = "librerouter,librerouter-v1", "qca,qca9558";
 	model = "LibreRouter v1";
 
-	chosen {
-		bootargs = "console=ttyS0,115200n8";
-	};
-
 	aliases {
-		led-boot = &system;
-		led-failsafe = &system;
-		led-running = &system;
-		led-upgrade = &system;
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-running = &led_system;
+		led-upgrade = &led_system;
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		system: system {
+		led_system: system {
 			label = "librerouter-v1:green:system";
 			gpios = <&gpio 23 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
@@ -42,7 +38,7 @@
 		};
 	};
 
-	button {
+	keys {
 		compatible = "gpio-keys";
 
 		reset {
@@ -84,10 +80,6 @@
 	status = "okay";
 };
 
-&gpio {
-	status = "okay";
-};
-
 &usb_phy0 {
 	status = "okay";
 };
@@ -110,6 +102,7 @@
 
 &spi {
 	status = "okay";
+
 	num-cs = <1>;
 
 	flash@0 {

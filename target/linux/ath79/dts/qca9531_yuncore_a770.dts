@@ -11,14 +11,10 @@
 	compatible = "yuncore,a770", "qca,qca9531";
 
 	aliases {
-		led-boot = &status;
-		led-failsafe = &status;
-		led-running = &status;
-		led-upgrade = &status;
-	};
-
-	chosen {
-		bootargs = "console=ttyS0,115200n8";
+		led-boot = &led_status;
+		led-failsafe = &led_status;
+		led-running = &led_status;
+		led-upgrade = &led_status;
 	};
 
 	keys {
@@ -40,7 +36,7 @@
 			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
 		};
 
-		status: status {
+		led_status: status {
 			label = "a770:green:status";
 			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
 			default-state = "keep";
@@ -57,21 +53,6 @@
 			linux,default-trigger = "phy1tpt";
 		};
 	};
-};
-
-&eth0 {
-	status = "okay";
-
-	phy-handle = <&swphy4>;
-	mtd-mac-address = <&art 0x0>;
-};
-
-&eth1 {
-	mtd-mac-address = <&art 0x6>;
-};
-
-&pcie0 {
-	status = "okay";
 };
 
 &spi {
@@ -116,6 +97,22 @@
 };
 
 &uart {
+	status = "okay";
+};
+
+&eth0 {
+	status = "okay";
+
+	phy-handle = <&swphy4>;
+
+	mtd-mac-address = <&art 0x0>;
+};
+
+&eth1 {
+	mtd-mac-address = <&art 0x6>;
+};
+
+&pcie0 {
 	status = "okay";
 };
 
